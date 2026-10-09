@@ -1,0 +1,11 @@
+<odoo>
+
+    <menuitem id="menu_fideli_root" name="FideliCaisse" sequence="15"/>
+
+    <menuitem id="menu_loyalty_member"
+              name="Membres fidélité"
+              parent="menu_fideli_root"
+              action="action_loyalty_member"
+              sequence="10"/>
+
+</odoo>

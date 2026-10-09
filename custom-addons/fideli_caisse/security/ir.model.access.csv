@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loyalty_member_caissier,loyalty.member.caissier,model_loyalty_member,group_fideli_caissier,1,0,0,0
+access_loyalty_member_gestionnaire,loyalty.member.gestionnaire,model_loyalty_member,group_fideli_gestionnaire,1,1,1,1
+access_loyalty_transaction_caissier,loyalty.transaction.caissier,model_loyalty_transaction,group_fideli_caissier,1,1,1,0
+access_loyalty_transaction_gestionnaire,loyalty.transaction.gestionnaire,model_loyalty_transaction,group_fideli_gestionnaire,1,1,1,1

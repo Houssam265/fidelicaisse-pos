@@ -1,0 +1,98 @@
+<odoo>
+
+    <record id="action_report_fideli_receipt" model="ir.actions.report">
+        <field name="name">Reçu fidélité</field>
+        <field name="model">pos.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fideli_caisse.report_fideli_receipt_document</field>
+        <field name="report_file">fideli_caisse.report_fideli_receipt_document</field>
+        <field name="binding_model_id" ref="point_of_sale.model_pos_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_fideli_receipt_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Reçu de caisse — Programme fidélité</h2>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Commande</strong>
+                                <p>
+                                    Référence : <span t-field="doc.pos_reference"/><br/>
+                                    Date : <span t-field="doc.date_order"/>
+                                </p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Client</strong>
+                                <p>
+                                    <span t-field="doc.partner_id.name"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Article</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">Prix</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.lines" t-as="line">
+                                    <td><span t-field="line.full_product_name"/></td>
+                                    <td class="text-end"><span t-field="line.qty"/></td>
+                                    <td class="text-end"><span t-field="line.price_subtotal_incl"
+                                        t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row justify-content-end mb32">
+                            <div class="col-4">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Total payé</strong></td>
+                                        <td class="text-end">
+                                            <strong>
+                                                <span t-field="doc.amount_total"
+                                                    t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row" style="background-color: #f4f2f3; padding: 15px; border-radius: 6px;">
+                            <div class="col-12">
+                                <h4>🎁 Programme de fidélité</h4>
+                                <t t-set="member" t-value="env['loyalty.member'].sudo().search([('partner_id', '=', doc.partner_id.id)], limit=1)"/>
+                                <t t-if="member">
+                                    <p>
+                                        Points gagnés sur cet achat :
+                                        <strong>
+                                            <t t-esc="int(doc.amount_total // 10)"/> points
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        Solde total : <strong><span t-field="member.solde_points"/> points</strong>
+                                        — Niveau : <strong><span t-field="member.niveau"/></strong>
+                                    </p>
+                                    <p>Code carte : <span t-field="member.code_carte"/></p>
+                                </t>
+                                <t t-else="">
+                                    <p>Ce client n'est pas encore inscrit au programme de fidélité.</p>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

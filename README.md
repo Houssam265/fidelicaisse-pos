@@ -50,6 +50,9 @@ Unlike Garage Management, where a separate Flask app reads Odoo through XML-RPC,
 |---|---|
 | ![receipt](docs/screenshots/fidelity_receipt.png) | ![api](docs/screenshots/native_api_route.png) |
 
+| Public loyalty card page |
+|---|
+| ![public page](docs/screenshots/public_page.png) |
 ## 🚀 Installation
 
 Prerequisite: [Docker Desktop](https://www.docker.com/products/docker-desktop/).
